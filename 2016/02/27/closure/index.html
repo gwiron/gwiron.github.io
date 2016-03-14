@@ -1,0 +1,229 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>closure | GW.iron</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="闭包简介闭包其实就是一个作用域，在这个作用域环境中的变量是私有的。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="closure">
+<meta property="og:url" content="http://yoursite.com/2016/02/27/closure/index.html">
+<meta property="og:site_name" content="GW.iron">
+<meta property="og:description" content="闭包简介闭包其实就是一个作用域，在这个作用域环境中的变量是私有的。">
+<meta property="og:updated_time" content="2016-03-14T23:37:00.038Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="closure">
+<meta name="twitter:description" content="闭包简介闭包其实就是一个作用域，在这个作用域环境中的变量是私有的。">
+  
+  
+    <link rel="icon" href="/favicon.png">
+  
+  
+    <link href="//fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
+  
+  <link rel="stylesheet" href="/css/style.css">
+  
+
+</head>
+
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/" id="logo">GW.iron</a>
+      </h1>
+      
+        <h2 id="subtitle-wrap">
+          <a href="/" id="subtitle">赢在心态</a>
+        </h2>
+      
+    </div>
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"></a>
+        
+          <a class="main-nav-link" href="/">首页</a>
+        
+          <a class="main-nav-link" href="/archives">归档</a>
+        
+      </nav>
+      <nav id="sub-nav">
+        
+        <a id="nav-search-btn" class="nav-icon" title="搜索"></a>
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" results="0" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="http://yoursite.com"></form>
+      </div>
+    </div>
+  </div>
+</header>
+      <div class="outer">
+        <section id="main"><article id="post-closure" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2016/02/27/closure/" class="article-date">
+  <time datetime="2016-02-27T02:36:42.000Z" itemprop="datePublished">2016-02-27</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      closure
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="闭包简介"><a href="#闭包简介" class="headerlink" title="闭包简介"></a>闭包简介</h1><p>闭包其实就是一个作用域，在这个作用域环境中的变量是私有的。<br><a id="more"></a></p>
+<h1 id="闭包的举例"><a href="#闭包的举例" class="headerlink" title="闭包的举例"></a>闭包的举例</h1><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">var scope = &apos;global&apos;;</span><br><span class="line">function checkScope()&#123;</span><br><span class="line">  var scope = &apos;local&apos;;</span><br><span class="line">  function f()&#123;</span><br><span class="line">    console.log(scope);</span><br><span class="line">  &#125;</span><br><span class="line">  f();// =&gt; &apos;local&apos;</span><br><span class="line">&#125;</span><br><span class="line">console.log(scope);//=&gt; &apos;global&apos;</span><br></pre></td></tr></table></figure>
+<p>从上例可以看出，局部变量的优先级比全局变量的优先级高，闭包里面的变量对于外部是私有的</p>
+<h3 id="利用这个机制，可以写出很有意思的程序"><a href="#利用这个机制，可以写出很有意思的程序" class="headerlink" title="利用这个机制，可以写出很有意思的程序"></a>利用这个机制，可以写出很有意思的程序</h3><p>当我们要看这个程序之前先来看一个程序<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">/*</span><br><span class="line"> *用来计算</span><br><span class="line"> */</span><br><span class="line">function count()&#123;</span><br><span class="line">  count.n ++;</span><br><span class="line">&#125;</span><br><span class="line">count.n = 0;</span><br><span class="line">count();//=&gt;1</span><br><span class="line">count();//=&gt;2</span><br><span class="line">count.n ++;//=&gt;3</span><br></pre></td></tr></table></figure></p>
+<p>从上面可以看出，用属性的方法，的确可以保持上一次执行的结果，而且也用到面向对象的思想，但是从最后一行代码可以看出，此方法，可能被恶意的程序所修改值。为此我们可以利用闭包的思想<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">var count = (function()&#123;</span><br><span class="line">  var n = 0;</span><br><span class="line">  return function()&#123;</span><br><span class="line">    n++;</span><br><span class="line">    return n;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;());</span><br><span class="line">count(); //=&gt;1</span><br><span class="line">count(); //=&gt;2</span><br><span class="line">count(); //=&gt;3</span><br></pre></td></tr></table></figure></p>
+<p>这样既保存了，上一次执行结果，也防止恶意程序的修改</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://yoursite.com/2016/02/27/closure/" data-id="cilsn57xf00040ctx7kqgae0p" class="article-share-link">Share</a>
+      
+      
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/js/">js</a></li></ul>
+
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/2016/03/03/object-oriented/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Newer</strong>
+      <div class="article-nav-title">
+        
+          js面向对象编程
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2016/01/27/action-scope/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title">作用域和作用域链</div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+</section>
+        
+          <aside id="sidebar">
+  
+    
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">标签</h3>
+    <div class="widget">
+      <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/tags/js/">js</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">标签云</h3>
+    <div class="widget tagcloud">
+      <a href="/tags/js/" style="font-size: 10px;">js</a>
+    </div>
+  </div>
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">归档</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/03/">三月 2016</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/02/">二月 2016</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/01/">一月 2016</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">最新文章</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="/2016/03/12/closeure-for-capture/">利用闭包解决for循环里onclick事件不能捕捉实时i值问题</a>
+          </li>
+        
+          <li>
+            <a href="/2016/03/10/window-open/">window.open</a>
+          </li>
+        
+          <li>
+            <a href="/2016/03/03/object-oriented/">js面向对象编程</a>
+          </li>
+        
+          <li>
+            <a href="/2016/02/27/closure/">closure</a>
+          </li>
+        
+          <li>
+            <a href="/2016/01/27/action-scope/">作用域和作用域链</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+</aside>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      &copy; 2016 骚辉<br>
+      Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">首页</a>
+  
+    <a href="/archives" class="mobile-nav-link">归档</a>
+  
+</nav>
+    
+
+<script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+
+
+  <link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+  <script src="/fancybox/jquery.fancybox.pack.js"></script>
+
+
+<script src="/js/script.js"></script>
+
+  </div>
+</body>
+</html>

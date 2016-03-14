@@ -1,0 +1,219 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>利用闭包解决for循环里onclick事件不能捕捉实时i值问题 | GW.iron</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="问题描述我们都知道，如果我们对于一组元素（相同的标签）同时进行onclick事件处理的时候（在需要获取到索引的时候），一般是写一个for循环，但是onclick是一个异步调用的，所以会带来一个问题，当我们触发这个事件的时候，我们能获取的i值是for完整执行完后i的值，而不能获取到代码顺序里i的值，看一个例子">
+<meta property="og:type" content="article">
+<meta property="og:title" content="利用闭包解决for循环里onclick事件不能捕捉实时i值问题">
+<meta property="og:url" content="http://yoursite.com/2016/03/12/closeure-for-capture/index.html">
+<meta property="og:site_name" content="GW.iron">
+<meta property="og:description" content="问题描述我们都知道，如果我们对于一组元素（相同的标签）同时进行onclick事件处理的时候（在需要获取到索引的时候），一般是写一个for循环，但是onclick是一个异步调用的，所以会带来一个问题，当我们触发这个事件的时候，我们能获取的i值是for完整执行完后i的值，而不能获取到代码顺序里i的值，看一个例子">
+<meta property="og:updated_time" content="2016-03-14T23:48:23.631Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="利用闭包解决for循环里onclick事件不能捕捉实时i值问题">
+<meta name="twitter:description" content="问题描述我们都知道，如果我们对于一组元素（相同的标签）同时进行onclick事件处理的时候（在需要获取到索引的时候），一般是写一个for循环，但是onclick是一个异步调用的，所以会带来一个问题，当我们触发这个事件的时候，我们能获取的i值是for完整执行完后i的值，而不能获取到代码顺序里i的值，看一个例子">
+  
+  
+    <link rel="icon" href="/favicon.png">
+  
+  
+    <link href="//fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
+  
+  <link rel="stylesheet" href="/css/style.css">
+  
+
+</head>
+
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/" id="logo">GW.iron</a>
+      </h1>
+      
+        <h2 id="subtitle-wrap">
+          <a href="/" id="subtitle">赢在心态</a>
+        </h2>
+      
+    </div>
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"></a>
+        
+          <a class="main-nav-link" href="/">首页</a>
+        
+          <a class="main-nav-link" href="/archives">归档</a>
+        
+      </nav>
+      <nav id="sub-nav">
+        
+        <a id="nav-search-btn" class="nav-icon" title="搜索"></a>
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" results="0" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="http://yoursite.com"></form>
+      </div>
+    </div>
+  </div>
+</header>
+      <div class="outer">
+        <section id="main"><article id="post-closeure-for-capture" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2016/03/12/closeure-for-capture/" class="article-date">
+  <time datetime="2016-03-12T03:03:02.000Z" itemprop="datePublished">2016-03-12</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      利用闭包解决for循环里onclick事件不能捕捉实时i值问题
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h3 id="问题描述"><a href="#问题描述" class="headerlink" title="问题描述"></a>问题描述</h3><p>我们都知道，如果我们对于一组元素（相同的标签）同时进行onclick事件处理的时候（在需要获取到索引的时候），一般是写一个for循环，但是onclick是一个异步调用的，所以会带来一个问题，当我们触发这个事件的时候，我们能获取的i值是for完整执行完后i的值，而不能获取到代码顺序里i的值，看一个例子<br><a id="more"></a></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">window.onload = funtion()&#123;</span><br><span class="line">	var lis = document.getElementsByTagName(&apos;li&apos;);</span><br><span class="line">	for( var i = 0; i &lt; lis.length; i ++ )&#123;</span><br><span class="line">		lis[i].onclick = function()&#123;</span><br><span class="line">			console.log(i);//当我们点击面页里的li时候 i 总是等于lis.length</span><br><span class="line">		&#125;;</span><br><span class="line">	&#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+<h3 id="以前惯用的解决方式"><a href="#以前惯用的解决方式" class="headerlink" title="以前惯用的解决方式"></a>以前惯用的解决方式</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">window.onload = funtion()&#123;</span><br><span class="line">	var lis = document.getElementsByTagName(&apos;li&apos;);</span><br><span class="line">	for( var i = 0; i &lt; lis.length; i ++ )&#123;</span><br><span class="line">		lis.index = i;</span><br><span class="line">		lis[i].onclick = function()&#123;</span><br><span class="line">			console.log( this.index );//每个li对应有着自己的索引值，也就可以判断出是什么时</span><br><span class="line">		&#125;;</span><br><span class="line">	&#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+<h3 id="利用闭包解决"><a href="#利用闭包解决" class="headerlink" title="利用闭包解决"></a>利用闭包解决</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">window.onload = function()&#123;</span><br><span class="line">	var lis = document.getElementsByTagName(&apos;li&apos;);</span><br><span class="line">	for( var i = 0; i &lt; lis.length; i++ )&#123;</span><br><span class="line">		(function (n)&#123;</span><br><span class="line">			lis[n].onclick = function()&#123;</span><br><span class="line">				console.log( i + &apos;-&apos; + n );//i总是等于10 而n则是安装顺序</span><br><span class="line">			&#125;;</span><br><span class="line">		&#125;(i));</span><br><span class="line">	&#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+<p>原理：闭包的局部作用域。由于这个你们函数总是和代码执行顺序一样的，所以n可以实时记录i的值。由于for每执行一次，就执行一次匿名函数，每一次执行有自己的执行环境，有着自己的作用域链，所以用这函数里面一个变量来记录一下实时的i的值，这个n是不会随着i的改变而改变的</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://yoursite.com/2016/03/12/closeure-for-capture/" data-id="cilsn57xf00030ctxzl5zlhxq" class="article-share-link">Share</a>
+      
+      
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/js/">js</a></li></ul>
+
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+  
+    <a href="/2016/03/10/window-open/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title">window.open</div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+</section>
+        
+          <aside id="sidebar">
+  
+    
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">标签</h3>
+    <div class="widget">
+      <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/tags/js/">js</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">标签云</h3>
+    <div class="widget tagcloud">
+      <a href="/tags/js/" style="font-size: 10px;">js</a>
+    </div>
+  </div>
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">归档</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/03/">三月 2016</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/02/">二月 2016</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/01/">一月 2016</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">最新文章</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="/2016/03/12/closeure-for-capture/">利用闭包解决for循环里onclick事件不能捕捉实时i值问题</a>
+          </li>
+        
+          <li>
+            <a href="/2016/03/10/window-open/">window.open</a>
+          </li>
+        
+          <li>
+            <a href="/2016/03/03/object-oriented/">js面向对象编程</a>
+          </li>
+        
+          <li>
+            <a href="/2016/02/27/closure/">closure</a>
+          </li>
+        
+          <li>
+            <a href="/2016/01/27/action-scope/">作用域和作用域链</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+</aside>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      &copy; 2016 骚辉<br>
+      Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">首页</a>
+  
+    <a href="/archives" class="mobile-nav-link">归档</a>
+  
+</nav>
+    
+
+<script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+
+
+  <link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+  <script src="/fancybox/jquery.fancybox.pack.js"></script>
+
+
+<script src="/js/script.js"></script>
+
+  </div>
+</body>
+</html>
