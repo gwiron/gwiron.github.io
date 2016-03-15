@@ -1,0 +1,237 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>对于js赋值运算的理解 | GW.iron</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="简介
+js引擎由于为了效率，很多时候的非直接量赋值都不是copy一份在赋值给新的变量，而是一个引用ps：直接量：直接值数字字符串等
+为什么使用len = doms.length; 里的len效率要比doms.length高">
+<meta property="og:type" content="article">
+<meta property="og:title" content="对于js赋值运算的理解">
+<meta property="og:url" content="http://yoursite.com/2016/03/15/assignment/index.html">
+<meta property="og:site_name" content="GW.iron">
+<meta property="og:description" content="简介
+js引擎由于为了效率，很多时候的非直接量赋值都不是copy一份在赋值给新的变量，而是一个引用ps：直接量：直接值数字字符串等
+为什么使用len = doms.length; 里的len效率要比doms.length高">
+<meta property="og:updated_time" content="2016-03-15T05:07:06.204Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="对于js赋值运算的理解">
+<meta name="twitter:description" content="简介
+js引擎由于为了效率，很多时候的非直接量赋值都不是copy一份在赋值给新的变量，而是一个引用ps：直接量：直接值数字字符串等
+为什么使用len = doms.length; 里的len效率要比doms.length高">
+  
+  
+    <link rel="icon" href="/image/favicon.ico">
+  
+  
+    <link href="//fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
+  
+  <link rel="stylesheet" href="/css/style.css">
+  
+
+</head>
+
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/" id="logo">GW.iron</a>
+      </h1>
+      
+        <h2 id="subtitle-wrap">
+          <a href="/" id="subtitle">赢在心态</a>
+        </h2>
+      
+    </div>
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"></a>
+        
+          <a class="main-nav-link" href="/">首页</a>
+        
+          <a class="main-nav-link" href="/archives">归档</a>
+        
+      </nav>
+      <nav id="sub-nav">
+        
+        <a id="nav-search-btn" class="nav-icon" title="搜索"></a>
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" results="0" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="http://yoursite.com"></form>
+      </div>
+    </div>
+  </div>
+</header>
+      <div class="outer">
+        <section id="main"><article id="post-assignment" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2016/03/15/assignment/" class="article-date">
+  <time datetime="2016-03-15T04:08:25.000Z" itemprop="datePublished">2016-03-15</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      对于js赋值运算的理解
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="简介"><a href="#简介" class="headerlink" title="简介"></a>简介</h1><ol>
+<li>js引擎由于为了效率，很多时候的非直接量赋值都不是copy一份在赋值给新的变量，而是一个引用<br>ps：直接量：直接值数字字符串等</li>
+<li>为什么使用len = doms.length; 里的len效率要比doms.length高<a id="more"></a>
+<h1 id="js赋值运算的理解"><a href="#js赋值运算的理解" class="headerlink" title="js赋值运算的理解"></a>js赋值运算的理解</h1>我们先来看一个例子<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">var parent = &#123;</span><br><span class="line">	x : 1,</span><br><span class="line">	y : 2</span><br><span class="line">&#125;;</span><br><span class="line">var child = parent;</span><br><span class="line">child.x = 3;</span><br><span class="line">console.log( parent.x ); //=&gt;3</span><br></pre></td></tr></table></figure>
+</li>
+</ol>
+<p>从上面这个例子可以看出，当把parent赋值给child的时候并不是把parent克隆一份然后再赋值给child，<strong>实则child只是parent的一个引用</strong></p>
+<p>###而直接量可以这么解释<br>看例子：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">var parent = 5;</span><br><span class="line">var child = parent; //也可以说是把parent的引用赋值给child</span><br><span class="line">child = 3; // 但是这里的 直接量3的引用把parent的引用给覆盖了 而其实parent也是引用这个直接量</span><br><span class="line">console.log( parent ); //=&gt;5</span><br></pre></td></tr></table></figure></p>
+<p>那有人可能会举这样的例子<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">var parent = 5;</span><br><span class="line">var child = parent;</span><br><span class="line">child.x = 2;</span><br><span class="line">console.log( parent.x ); //=&gt;undefined</span><br></pre></td></tr></table></figure></p>
+<p>说这里总是没有把paient的引用给覆盖了，而只是给child加了一个属性，那么为什么parent.x 为 undefined 呢？这里你可能要去看一下我之前的一篇博客了关于<a href="/2016/01/27/baozhuangduixiang/">js的包装对象</a></p>
+<h1 id="为什么使用len-doms-length-里的len效率要比doms-length高"><a href="#为什么使用len-doms-length-里的len效率要比doms-length高" class="headerlink" title="为什么使用len = doms.length; 里的len效率要比doms.length高"></a>为什么使用len = doms.length; 里的len效率要比doms.length高</h1><p>因为使用 getElementsByTagName函数获取到的doms是一个动态的伪数组，length属性是一个动态计算的。所以当每次使用doms.lenth的时候都进行了一次计算，而把doms.length赋值给len以后 len存的是计算的结果，是一个直接量，故效率肯定高。</p>
+<p>###其它还有一些使用赋值运算会使效率提高，因为变量里放的是计算过后的结果，如：</p>
+<ul>
+<li>var div = document.geElementById(‘div’); //此类的获取元素 div获得了直接的引用，下回就不用再由getElementById来计算引用</li>
+</ul>
+<h1 id="那么如果我们要copy一份第一个例子中的对象该怎么办？"><a href="#那么如果我们要copy一份第一个例子中的对象该怎么办？" class="headerlink" title="那么如果我们要copy一份第一个例子中的对象该怎么办？"></a>那么如果我们要copy一份第一个例子中的对象该怎么办？</h1><p>遍历对象所有属性和方法，一一把属性方法复制过去<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">var parent = &#123;</span><br><span class="line">	x : 1,</span><br><span class="line">	y : 2</span><br><span class="line">&#125;;</span><br><span class="line">var child = &#123;&#125;;</span><br><span class="line">for( var i in parent )&#123;</span><br><span class="line">	child[i] = parent[i];</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>而child.x 引用的直接量是parent.x而parent.x引用的直接量是1，所以它们引用同一个直接量，是不是有点绕，哈哈</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://yoursite.com/2016/03/15/assignment/" data-id="cilsxe8wz00037wtxwa1xeast" class="article-share-link">Share</a>
+      
+      
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/js/">js</a></li></ul>
+
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+  
+    <a href="/2016/03/12/closeure-for-capture/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title">利用闭包解决for循环里onclick事件不能捕捉实时i值问题</div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+</section>
+        
+          <aside id="sidebar">
+  
+    
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">标签</h3>
+    <div class="widget">
+      <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/tags/js/">js</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">标签云</h3>
+    <div class="widget tagcloud">
+      <a href="/tags/js/" style="font-size: 10px;">js</a>
+    </div>
+  </div>
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">归档</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/03/">三月 2016</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/02/">二月 2016</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/01/">一月 2016</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">最新文章</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="/2016/03/15/assignment/">对于js赋值运算的理解</a>
+          </li>
+        
+          <li>
+            <a href="/2016/03/12/closeure-for-capture/">利用闭包解决for循环里onclick事件不能捕捉实时i值问题</a>
+          </li>
+        
+          <li>
+            <a href="/2016/03/10/window-open/">window.open</a>
+          </li>
+        
+          <li>
+            <a href="/2016/03/03/object-oriented/">js面向对象编程</a>
+          </li>
+        
+          <li>
+            <a href="/2016/02/27/closure/">closure</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+</aside>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      &copy; 2016 骚辉<br>
+      Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">首页</a>
+  
+    <a href="/archives" class="mobile-nav-link">归档</a>
+  
+</nav>
+    
+
+<script src="http://apps.bdimg.com/libs/jquery/2.1.1/jquery.min.js"></script>
+
+
+  <link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+  <script src="/fancybox/jquery.fancybox.pack.js"></script>
+
+
+<script src="/js/script.js"></script>
+
+  </div>
+</body>
+</html>
