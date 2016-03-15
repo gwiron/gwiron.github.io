@@ -15,7 +15,7 @@ js引擎由于为了效率，很多时候的非直接量赋值都不是copy一�
 <meta property="og:description" content="简介
 js引擎由于为了效率，很多时候的非直接量赋值都不是copy一份在赋值给新的变量，而是一个引用ps：直接量：直接值数字字符串等
 为什么使用len = doms.length; 里的len效率要比doms.length高">
-<meta property="og:updated_time" content="2016-03-15T05:07:06.204Z">
+<meta property="og:updated_time" content="2016-03-15T08:11:49.595Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="对于js赋值运算的理解">
 <meta name="twitter:description" content="简介
@@ -94,9 +94,9 @@ js引擎由于为了效率，很多时候的非直接量赋值都不是copy一�
         <h1 id="简介"><a href="#简介" class="headerlink" title="简介"></a>简介</h1><ol>
 <li>js引擎由于为了效率，很多时候的非直接量赋值都不是copy一份在赋值给新的变量，而是一个引用<br>ps：直接量：直接值数字字符串等</li>
 <li>为什么使用len = doms.length; 里的len效率要比doms.length高<a id="more"></a>
-<h1 id="js赋值运算的理解"><a href="#js赋值运算的理解" class="headerlink" title="js赋值运算的理解"></a>js赋值运算的理解</h1>我们先来看一个例子<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">var parent = &#123;</span><br><span class="line">	x : 1,</span><br><span class="line">	y : 2</span><br><span class="line">&#125;;</span><br><span class="line">var child = parent;</span><br><span class="line">child.x = 3;</span><br><span class="line">console.log( parent.x ); //=&gt;3</span><br></pre></td></tr></table></figure>
 </li>
 </ol>
+<h1 id="js赋值运算的理解"><a href="#js赋值运算的理解" class="headerlink" title="js赋值运算的理解"></a>js赋值运算的理解</h1><p>我们先来看一个例子<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">var parent = &#123;</span><br><span class="line">	x : 1,</span><br><span class="line">	y : 2</span><br><span class="line">&#125;;</span><br><span class="line">var child = parent;</span><br><span class="line">child.x = 3;</span><br><span class="line">console.log( parent.x ); //=&gt;3</span><br></pre></td></tr></table></figure></p>
 <p>从上面这个例子可以看出，当把parent赋值给child的时候并不是把parent克隆一份然后再赋值给child，<strong>实则child只是parent的一个引用</strong></p>
 <p>###而直接量可以这么解释<br>看例子：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">var parent = 5;</span><br><span class="line">var child = parent; //也可以说是把parent的引用赋值给child</span><br><span class="line">child = 3; // 但是这里的 直接量3的引用把parent的引用给覆盖了 而其实parent也是引用这个直接量</span><br><span class="line">console.log( parent ); //=&gt;5</span><br></pre></td></tr></table></figure></p>
 <p>那有人可能会举这样的例子<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">var parent = 5;</span><br><span class="line">var child = parent;</span><br><span class="line">child.x = 2;</span><br><span class="line">console.log( parent.x ); //=&gt;undefined</span><br></pre></td></tr></table></figure></p>
@@ -112,7 +112,7 @@ js引擎由于为了效率，很多时候的非直接量赋值都不是copy一�
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2016/03/15/assignment/" data-id="cilsxe8wz00037wtxwa1xeast" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2016/03/15/assignment/" data-id="cilt54r960004ootx7r03daz9" class="article-share-link">Share</a>
       
       
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/js/">js</a></li></ul>
