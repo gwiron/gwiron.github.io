@@ -3,18 +3,20 @@
 <head>
   <meta charset="utf-8">
   
-  <title>JS包装对象 | GW.iron</title>
+  <title>padding/border与width的关系 | GW.iron</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="js包装对象">
+  <meta name="description" content="本文讲述 padding / border 的设置后是否对 width 有影响，width 等于 auto 与 100% 的区别">
 <meta property="og:type" content="article">
-<meta property="og:title" content="JS包装对象">
-<meta property="og:url" content="http://yoursite.com/2016/01/27/baozhuangduixiang/index.html">
+<meta property="og:title" content="padding/border与width的关系">
+<meta property="og:url" content="http://yoursite.com/2016/03/18/padding-border-width/index.html">
 <meta property="og:site_name" content="GW.iron">
-<meta property="og:description" content="js包装对象">
-<meta property="og:updated_time" content="2016-03-14T23:25:21.599Z">
+<meta property="og:description" content="本文讲述 padding / border 的设置后是否对 width 有影响，width 等于 auto 与 100% 的区别">
+<meta property="og:image" content="http://www.w3school.com.cn/i/ct_boxmodel.gif">
+<meta property="og:updated_time" content="2016-03-18T08:05:31.557Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="JS包装对象">
-<meta name="twitter:description" content="js包装对象">
+<meta name="twitter:title" content="padding/border与width的关系">
+<meta name="twitter:description" content="本文讲述 padding / border 的设置后是否对 width 有影响，width 等于 auto 与 100% 的区别">
+<meta name="twitter:image" content="http://www.w3school.com.cn/i/ct_boxmodel.gif">
   
   
     <link rel="icon" href="/image/favicon.ico">
@@ -63,10 +65,10 @@
   </div>
 </header>
       <div class="outer">
-        <section id="main"><article id="post-baozhuangduixiang" class="article article-type-post" itemscope itemprop="blogPost">
+        <section id="main"><article id="post-padding-border-width" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-meta">
-    <a href="/2016/01/27/baozhuangduixiang/" class="article-date">
-  <time datetime="2016-01-27T08:50:50.000Z" itemprop="datePublished">2016-01-27</time>
+    <a href="/2016/03/18/padding-border-width/" class="article-date">
+  <time datetime="2016-03-18T03:03:14.000Z" itemprop="datePublished">2016-03-18</time>
 </a>
     
   </div>
@@ -77,7 +79,7 @@
         
   
     <h1 class="article-title" itemprop="name">
-      JS包装对象
+      padding/border与width的关系
     </h1>
   
 
@@ -85,17 +87,37 @@
     
     <div class="article-entry" itemprop="articleBody">
       
-        <p>js包装对象<br><a id="more"></a></p>
-<h1 id="一、包装对象"><a href="#一、包装对象" class="headerlink" title="一、包装对象"></a>一、包装对象</h1><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">var s = &quot;hello word&quot;;</span><br><span class="line">s.len = 4;</span><br><span class="line">var t = s.len; //=&gt;undefined</span><br></pre></td></tr></table></figure>
-<p>原因由于s是一个字符串，在执行第二行中，s.len = 4;;时生成一个临时对象，临时对象在执行完之后则被销毁。故 new String(‘hello word’)和 “hello word”这两个是有区别的，前者是一个对象，且有原始值，前者的原始值就是后者。</p>
+        <p>本文讲述 padding / border 的设置后是否对 width 有影响，width 等于 auto 与 100% 的区别<br><a id="more"></a></p>
+<h4 id="CSS-框模型-Box-Model-规定了元素框处理元素内容、内边距、边框-和-外边距-的方式。"><a href="#CSS-框模型-Box-Model-规定了元素框处理元素内容、内边距、边框-和-外边距-的方式。" class="headerlink" title="CSS 框模型 (Box Model) 规定了元素框处理元素内容、内边距、边框 和 外边距 的方式。"></a>CSS 框模型 (Box Model) 规定了元素框处理元素内容、内边距、边框 和 外边距 的方式。</h4><h1 id="概述"><a href="#概述" class="headerlink" title="概述"></a>概述</h1><p><img src="http://www.w3school.com.cn/i/ct_boxmodel.gif" alt="框模型"><br>那么 css 属性中width = ？呢<br>在标准的w3c的规定中 width 的真实值等于 content 区域的值，不加上 padding 与 border 的值<br>这虽然与我们常规的理解是有所偏差，因为现实角度理解一个盒子宽度应该是 = 内边距 + 边框 + 内容空间宽度，但是标准就是标准你必须遵守；<br>而标准有时候也是有问题的，在IE5/6中 width的值 = content的width + padding的width + border的width，所以开发的时候要注意  ；</p>
+<h4 id="术语"><a href="#术语" class="headerlink" title="术语:"></a>术语:</h4><ul>
+<li>padding : 内边距；</li>
+<li>margin ： 外边距；</li>
+<li>border ： 边框；</li>
+</ul>
+<h1 id="box-sizing"><a href="#box-sizing" class="headerlink" title="box-sizing"></a>box-sizing</h1><p>这是一个css3中新增的一个属性，可以用来控制，width的值是否包括边框和内边距，它有两个值：</p>
+<ul>
+<li>content-box ：代表 width属性 和 height属性 的值是不包括 内边距 和 边框值的，它是默认属性；</li>
+<li>border-box ：代表 width属性 和 height属性 的值是包括 内边距 和 边框 值的；</li>
+</ul>
+<h1 id="width-auto-和-width-100-的区别"><a href="#width-auto-和-width-100-的区别" class="headerlink" title="width : auto 和 width : 100% 的区别"></a>width : auto 和 width : 100% 的区别</h1><ul>
+<li><p>在box-sizing 为 content-box 的时候：</p>
+<ol>
+<li>width : auto 时，width = 父级的 width - 自己的 padding - 自己的 border；</li>
+<li>width ：100% 时，width = 父级的 width；</li>
+</ol>
+</li>
+<li><p>在box-sizing 为 border-box 时：两个并无区别</p>
+</li>
+</ul>
+<p>ps：这上面所指父级元素的 box-sizing 均为 content-box 的条件下</p>
 
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2016/01/27/baozhuangduixiang/" data-id="cilxdyr310009hstx65hffelx" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2016/03/18/padding-border-width/" data-id="cilxdyr2m0006hstxerwxym4z" class="article-share-link">Share</a>
       
       
-  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/js/">js</a></li></ul>
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/css/">css</a></li></ul>
 
     </footer>
   </div>
@@ -103,15 +125,11 @@
     
 <nav id="article-nav">
   
-    <a href="/2016/01/27/action-scope/" id="article-nav-newer" class="article-nav-link-wrap">
-      <strong class="article-nav-caption">Newer</strong>
-      <div class="article-nav-title">
-        
-          作用域和作用域链
-        
-      </div>
-    </a>
   
+    <a href="/2016/03/15/assignment/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title">对于js赋值运算的理解</div>
+    </a>
   
 </nav>
 
