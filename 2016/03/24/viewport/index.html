@@ -1,0 +1,239 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>移动开发viewport | GW.iron</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="对于设置完美适配移动设备 viewport">
+<meta property="og:type" content="article">
+<meta property="og:title" content="移动开发viewport">
+<meta property="og:url" content="http://yoursite.com/2016/03/24/viewport/index.html">
+<meta property="og:site_name" content="GW.iron">
+<meta property="og:description" content="对于设置完美适配移动设备 viewport">
+<meta property="og:updated_time" content="2016-03-24T05:30:09.057Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="移动开发viewport">
+<meta name="twitter:description" content="对于设置完美适配移动设备 viewport">
+  
+  
+    <link rel="icon" href="/image/favicon.ico">
+  
+  
+    <link href="//fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
+  
+  <link rel="stylesheet" href="/css/style.css">
+  
+
+</head>
+
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/" id="logo">GW.iron</a>
+      </h1>
+      
+        <h2 id="subtitle-wrap">
+          <a href="/" id="subtitle">赢在心态</a>
+        </h2>
+      
+    </div>
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"></a>
+        
+          <a class="main-nav-link" href="/">首页</a>
+        
+          <a class="main-nav-link" href="/archives">归档</a>
+        
+      </nav>
+      <nav id="sub-nav">
+        
+        <a id="nav-search-btn" class="nav-icon" title="搜索"></a>
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" results="0" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="http://yoursite.com"></form>
+      </div>
+    </div>
+  </div>
+</header>
+      <div class="outer">
+        <section id="main"><article id="post-viewport" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2016/03/24/viewport/" class="article-date">
+  <time datetime="2016-03-24T04:53:29.000Z" itemprop="datePublished">2016-03-24</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      移动开发viewport
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>对于设置完美适配移动设备 viewport</p>
+<a id="more"></a>
+<h1 id="三种-viewport"><a href="#三种-viewport" class="headerlink" title="三种 viewport"></a>三种 viewport</h1><ul>
+<li>layout viewport：文档流的 css 宽度，是一个静态的值，使用 document.documentElement.clientWidth 获取，在meta中是 width 设置的值</li>
+<li>visual viewport：当前可视区的显示的 css 宽度，为文档流现在在屏幕可视区显示出来的宽度，可以使用 window.innerWidth 来获取 </li>
+<li>ideal viewport：移动设备的理想viewport，不同的设备拥有有不同的ideal viewport。所有的iphone的ideal viewport宽度都是320px，无论它的屏幕宽度是320还是640，也就是说，在iphone中，css中的320px就代表iphone屏幕的宽度。</li>
+</ul>
+<h1 id="使用-meta-标签对-viewport-进行设置"><a href="#使用-meta-标签对-viewport-进行设置" class="headerlink" title="使用 meta 标签对 viewport 进行设置"></a>使用 meta 标签对 viewport 进行设置</h1><p>当 meta 标签的 name 值为 viewport 时 content 里面的值可以对 viewport 进行控制<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&lt;meta name=&quot;viewport&quot; content=&quot;...&quot;&gt;</span><br></pre></td></tr></table></figure></p>
+<h4 id="content-的属性值"><a href="#content-的属性值" class="headerlink" title="content 的属性值"></a>content 的属性值</h4><ul>
+<li>width：设置layout viewport  的宽度，为一个正整数，或字符串”width-device”</li>
+<li>initial-scale：设置页面的初始缩放值，为一个数字，可以带小数</li>
+<li>minimum-scale：允许用户的最小缩放值，为一个数字，可以带小数</li>
+<li>maximum-scale：允许用户的最大缩放值，为一个数字，可以带小数</li>
+<li>height：设置layout viewport  的高度，这个属性对我们并不重要，很少使用</li>
+<li>user-scalable：是否允许用户进行缩放，值为”no”或”yes”, no 代表不允许，yes代表允许</li>
+</ul>
+<p>content 设置多个属性时候，使用“,”隔开</p>
+<p>所以我们常见移动端开发的 meta 为：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&lt;meta name=&quot;viewport&quot; content=&quot;width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0&quot;&gt;</span><br></pre></td></tr></table></figure></p>
+<h1 id="把当前的-viewport-宽度设置为-ideal-viewport-的宽度"><a href="#把当前的-viewport-宽度设置为-ideal-viewport-的宽度" class="headerlink" title="把当前的 viewport 宽度设置为 ideal viewport 的宽度"></a>把当前的 viewport 宽度设置为 ideal viewport 的宽度</h1><h3 id="第一中方法："><a href="#第一中方法：" class="headerlink" title="第一中方法："></a>第一中方法：</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&lt;meta name=&quot;viewport&quot; content=&quot;width=device-width&quot;&gt;</span><br></pre></td></tr></table></figure>
+<p>可以看到通过 width=device-width ，所有浏览器都能把当前的 viewport 宽度变成 ideal viewport 的宽度，但要注意的是，在 iphone 和 ipad 上，无论是竖屏还是横屏，宽度都是竖屏时 ideal viewport 的宽度</p>
+<h3 id="第二种方法："><a href="#第二种方法：" class="headerlink" title="第二种方法："></a>第二种方法：</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&lt;meta name=&quot;viewport&quot; content=&quot;initial-scale=1.0&quot;&gt;</span><br></pre></td></tr></table></figure>
+<p>这句代码也能达到和前一句代码一样的效果，也可以把当前的的viewport变为 ideal viewport。</p>
+<p>呵呵，傻眼了吧，因为从理论上来讲，这句代码的作用只是不对当前的页面进行缩放，也就是页面本该是多大就是多大。那为什么会有 width=device-width 的效果呢？<br>要想清楚这件事情，首先你得弄明白这个缩放是相对于什么来缩放的，因为这里的缩放值是1，也就是没缩放，但却达到了 ideal viewport 的效果，所以，那答案就只有一个了，缩放是相对于 ideal viewport来进行缩放的，当对ideal viewport进行100%的缩放，也就是缩放值为1的时候，不就得到了 ideal viewport吗？事实证明，的确是这样的。<br>但是在 IE 上支持有是横竖屏都等于 ideal viewport 的宽度，所以为了全部都无问题，则设置</p>
+<h3 id="综合后的办法"><a href="#综合后的办法" class="headerlink" title="综合后的办法"></a>综合后的办法</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&lt;meta name=&quot;viewport&quot; content=&quot;width=device-width,initial=scale=1.0&quot;&gt;</span><br></pre></td></tr></table></figure>
+<h1 id="ps："><a href="#ps：" class="headerlink" title="ps："></a>ps：</h1><p>参考文献：<a href="http://www.cnblogs.com/2050/p/3877280.html" target="_blank" rel="external">http://www.cnblogs.com/2050/p/3877280.html</a></p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://yoursite.com/2016/03/24/viewport/" data-id="cim5ue6c7000d0ctxwj3i4j2u" class="article-share-link">Share</a>
+      
+      
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/css/">css</a></li></ul>
+
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+  
+    <a href="/2016/03/18/padding-border-width/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title">padding/border与width的关系</div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+</section>
+        
+          <aside id="sidebar">
+  
+    
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">标签</h3>
+    <div class="widget">
+      <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/tags/css/">css</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/js/">js</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">标签云</h3>
+    <div class="widget tagcloud">
+      <a href="/tags/css/" style="font-size: 10px;">css</a> <a href="/tags/js/" style="font-size: 20px;">js</a>
+    </div>
+  </div>
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">归档</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/03/">三月 2016</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/02/">二月 2016</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/01/">一月 2016</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">最新文章</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="/2016/03/24/viewport/">移动开发viewport</a>
+          </li>
+        
+          <li>
+            <a href="/2016/03/18/padding-border-width/">padding/border与width的关系</a>
+          </li>
+        
+          <li>
+            <a href="/2016/03/15/assignment/">对于js赋值运算的理解</a>
+          </li>
+        
+          <li>
+            <a href="/2016/03/12/closeure-for-capture/">利用闭包解决for循环里onclick事件不能捕捉实时i值问题</a>
+          </li>
+        
+          <li>
+            <a href="/2016/03/10/window-open/">window.open</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+</aside>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      &copy; 2016 骚辉<br>
+      Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">首页</a>
+  
+    <a href="/archives" class="mobile-nav-link">归档</a>
+  
+</nav>
+    
+
+<script src="http://apps.bdimg.com/libs/jquery/2.1.1/jquery.min.js"></script>
+
+
+  <link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+  <script src="/fancybox/jquery.fancybox.pack.js"></script>
+
+
+<script src="/js/script.js"></script>
+
+  </div>
+</body>
+</html>
