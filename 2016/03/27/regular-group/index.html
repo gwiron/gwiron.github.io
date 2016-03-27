@@ -11,7 +11,7 @@
 <meta property="og:url" content="http://yoursite.com/2016/03/27/regular-group/index.html">
 <meta property="og:site_name" content="GW.iron">
 <meta property="og:description" content="在学习php正则的时候，遇到了(?=),(?&amp;lt;=)等符号，百度了一下没找到讲的很清楚的，就自己整理一下">
-<meta property="og:updated_time" content="2016-03-27T03:45:56.502Z">
+<meta property="og:updated_time" content="2016-03-27T03:57:41.960Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="正则分组">
 <meta name="twitter:description" content="在学习php正则的时候，遇到了(?=),(?&amp;lt;=)等符号，百度了一下没找到讲的很清楚的，就自己整理一下">
@@ -87,16 +87,21 @@
       
         <p>在学习php正则的时候，遇到了(?=),(?&lt;=)等符号，百度了一下没找到讲的很清楚的，就自己整理一下</p>
 <a id="more"></a>
-<h1 id="分组"><a href="#分组" class="headerlink" title="分组"></a>分组</h1><p><em>使用 “()” 元字符表示符合表达式，使用它包含的内容在父级中看作一个独立单元，所以可以对它整个表达式进行 “()?” 1次或多次匹配。并且，此表达式匹配的结果放到临时缓冲区，可以被获取捕获使用。没有特别指定名字是缓冲区的编号按照，以左括号从左到右的顺序一次按顺序编号</em><br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">/(\d&#123;4&#125;)\W(\d&#123;1,2&#125;)\W\d&#123;1,2&#125;/; //匹配 2016-03-27 或 2016/03/27 等时间格式</span><br></pre></td></tr></table></figure></p>
+<h1 id="分组"><a href="#分组" class="headerlink" title="分组"></a>分组</h1><p><strong>使用 “()” 元字符表示符合表达式，使用它包含的内容在父级中看作一个独立单元，所以可以对它整个表达式进行 “()?” 1次或多次匹配。并且，此表达式匹配的结果放到临时缓冲区，可以被获取捕获使用。没有特别指定名字是缓冲区的编号按照，以左括号从左到右的顺序一次按顺序编号</strong><br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">/(\d&#123;4&#125;)\W(\d&#123;1,2&#125;)\W\d&#123;1,2&#125;/; //匹配 2016-03-27 或 2016/03/27 等时间格式</span><br></pre></td></tr></table></figure></p>
 <p>那么 (\d{4}) 编号 1 ，(\d{1,2}) 编号 2，那么如何在表达式中对此进行引用呢？使用 \n 来引用，例：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">/(\d&#123;4&#125;)(\W)(\d&#123;1,2&#125;)\\2\d&#123;1,2&#125;/;</span><br></pre></td></tr></table></figure></p>
 <p>这里的 \2 代表前面的 (\W) ，特别的：用 \2 这种方式匹配的结果必须和前面被引用的匹配结果一致</p>
 <p>如果需要在使用了，符合表达式后，又不存储到缓冲区的话可以使用 “(?:X)” 这边的 X 为你需要表达式</p>
-<h1 id="非捕获"><a href="#非捕获" class="headerlink" title="非捕获"></a>非捕获</h1><p>下面来说说把我搞困惑的，非捕获表达式</p>
+<h1 id="非捕获组"><a href="#非捕获组" class="headerlink" title="非捕获组"></a>非捕获组</h1><p>下面来说说把我搞困惑的，非捕获表达式， <strong>下面这四个非捕获组用于匹配表达式 X ，但是匹配结果不包含 X 表达式的内容</strong></p>
+<ul>
+<li>“(?=X)” ：零宽度正先行断言。仅当子表达式 X 在 此位置的右侧匹配时才继续匹配。例如，/w+(?=/d) 与后跟数字的单词匹配，而不与该数字匹配。此构造不会回溯。</li>
+<li>“(?!X)”：零宽度负先行断言。仅当子表达式 X 不在 此位置的右侧匹配时才继续匹配。例如，例如，/w+(?!/d) 与后不跟数字的单词匹配，而不与该数字匹配 。</li>
+<li>“(?&lt;=X)”：零宽度正后发断言。仅当子表达式 X 在 此位置的左侧匹配时才继续匹配。例如，(?&lt;=19)99 与跟在 19 后面的 99 的实例匹配。此构造不会回溯。</li>
+</ul>
 
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2016/03/27/regular-group/" data-id="cima186b70006z4tx4cgwtz6q" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2016/03/27/regular-group/" data-id="cima196as000dogtx3vuyswn5" class="article-share-link">Share</a>
       
       
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/正则表达式/">正则表达式</a></li></ul>
